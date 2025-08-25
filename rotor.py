@@ -5,14 +5,25 @@ rotor = list(string.ascii_uppercase + string.digits)
 rotor.insert(14, 'Ñ')
 rotor.insert(0 , ' ')
 rotors = [rotor.copy() for _ in range(5)]
-shuffleFlag = "2:2"
-shuffledRotors_list = []
+shuffleFlag = ""
+
+
+# Inicializa el flag para la separacion de las letras
+def initFlag(num : int):
+    global shuffleFlag
+    if num > 6:
+        shuffleFlag = "2:2"
+    elif num > 4:
+        shuffleFlag = "2:1"
+    elif num > 2:
+        shuffleFlag = "1:2"
+    else:
+        shuffleFlag = "1:1"
+
 
 # Extrae el desplazamiento de los rotores y el hash de mezca de los rotores
-def extract ():
+def extract (password: str):
     while True:
-        #password = input("Ingresa contraseña: ")
-        password = "El maik es un pendejo estupido"
         if len(password) < 15:
             print("La contraseña debe tener al menos 15 caracteres.")
             continue
@@ -22,8 +33,13 @@ def extract ():
         print("Contraseña válida.")
         break
     
+    # Valores de rotacion inicial
+    spins = [ord(char) for char in password[:5]] # Valores de rotación
+
+    initFlag(ord(password[5])%10)
+
     # Valores para mezcar el alfabeto de los rotores
-    shuffle = [ord(char) for char in password[5:]] # Valores de mezcla
+    shuffle = [ord(char) for char in password[7:]] # Valores de mezcla
     shuffleHash = "".join([str(numero) for numero in shuffle])
     if len(shuffleHash) < 256: #Completa el hash si no llega a 256
 
@@ -34,10 +50,9 @@ def extract ():
     if len(shuffleHash) < 256: #Recorta el hash si lo exede
         shuffleHash = shuffleHash[:256]
 
-    # Valores de rotacion inicial
-    spins = [ord(char) for char in password[:5]] # Valores de rotación
-    return shuffleHash, spins
+    loop = int(ord(password[6])%10)
 
+    return shuffleHash, spins, loop
 
 # Desplaza el alfabeto una pocicion hacia adelante
 def movRotor(rot : List): 
@@ -45,10 +60,12 @@ def movRotor(rot : List):
 
 
 # inicializa la posicion de los rotores
-def initRotors():
+def initRotors(rotors : list , spins : list) -> list:
     for i, (rotor, spin_value) in enumerate(zip(rotors, spins)):
         for _ in range(spin_value):
             movRotor(rotor)
+    print("Rotores inizializados")
+    return rotors
 
 
 def shuffleRotors_ext(password_hash: str, shuffled_rotors: List[List[str]]) -> Tuple[str, List[int]]:
@@ -128,7 +145,26 @@ def createShuffleList(shuffleHash: str, shuffled_list: List[int]) -> List[int]:
     return "", shuffled_list
 
 
-shuffleHash, spins = extract()
-cadena, shuffledRotors_list = createShuffleList(shuffleHash, shuffledRotors_list)
-print(cadena)
-print(shuffledRotors_list)
+#Mezcla los diccionarios
+def shuffle_rotors (rotors: list , shuffledRotors_list: list, loop : int) -> list:
+    index = 0
+    while loop > 0:
+        for fila in rotors:
+            for j, _ in enumerate(fila):
+                fila [j], fila[shuffledRotors_list[index]] = fila[shuffledRotors_list[index]], fila [j]
+                index += 1
+                if index >=  len(shuffledRotors_list):
+                    index = 0
+        loop -= 1
+    print("Diccionarios mezclados")
+    return rotors
+
+def initCrypt(password: str):
+    global rotors
+    shuffledRotors_list = []
+    shuffleHash, spins, loop = extract(password)
+    shuffleHash, shuffledRotors_list = createShuffleList(shuffleHash, shuffledRotors_list)
+    rotors = shuffle_rotors(rotors, shuffledRotors_list, loop)
+    rotors = initRotors(rotors, spins)
+
+initCrypt("Arriba mi ex la liz chavez")

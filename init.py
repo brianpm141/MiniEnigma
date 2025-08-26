@@ -159,12 +159,11 @@ def shuffle_rotors (rotors: list , shuffledRotors_list: list, loop : int) -> lis
     print("Diccionarios mezclados")
     return rotors
 
-def initCrypt(password: str):
+def initCrypt(password: str) -> list:
     global rotors
     shuffledRotors_list = []
     shuffleHash, spins, loop = extract(password)
     shuffleHash, shuffledRotors_list = createShuffleList(shuffleHash, shuffledRotors_list)
     rotors = shuffle_rotors(rotors, shuffledRotors_list, loop)
     rotors = initRotors(rotors, spins)
-
-initCrypt("Arriba mi ex la liz chavez")
+    return rotors

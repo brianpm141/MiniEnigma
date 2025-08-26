@@ -1,10 +1,8 @@
 from typing import List, Tuple
 import string
 
-rotor = list(string.ascii_uppercase + string.digits)
-rotor.insert(14, 'Ñ')
-rotor.insert(0 , ' ')
-rotors = [rotor.copy() for _ in range(5)]
+rotor = []
+rotors = []
 shuffleFlag = ""
 
 
@@ -30,7 +28,7 @@ def extract (password: str):
         if len(password) > 32:
             print("La contraseña debe tener como máximo 32 caracteres.")
             continue
-        print("Contraseña válida.")
+        #print("Contraseña válida.")
         break
     
     # Valores de rotacion inicial
@@ -64,7 +62,7 @@ def initRotors(rotors : list , spins : list) -> list:
     for i, (rotor, spin_value) in enumerate(zip(rotors, spins)):
         for _ in range(spin_value):
             movRotor(rotor)
-    print("Rotores inizializados")
+    #print("Rotores inizializados")
     return rotors
 
 
@@ -156,11 +154,16 @@ def shuffle_rotors (rotors: list , shuffledRotors_list: list, loop : int) -> lis
                 if index >=  len(shuffledRotors_list):
                     index = 0
         loop -= 1
-    print("Diccionarios mezclados")
+    #print("Diccionarios mezclados")
     return rotors
 
 def initCrypt(password: str) -> list:
-    global rotors
+    rotors = []
+    rotor = list(string.ascii_uppercase + string.digits)
+    rotor.insert(14, 'Ñ')
+    rotor.insert(0 , ' ')
+    rotors = [rotor.copy() for _ in range(5)]
+    shuffleFlag = ""
     shuffledRotors_list = []
     shuffleHash, spins, loop = extract(password)
     shuffleHash, shuffledRotors_list = createShuffleList(shuffleHash, shuffledRotors_list)

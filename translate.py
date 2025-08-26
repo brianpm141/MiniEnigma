@@ -35,7 +35,6 @@ def crypt(text, rotors) -> str:
     global dictionary
     init_ref(rotors[0])
     crypt_text = []
-
     aux_pos = 0
 
     for char in text:
@@ -53,4 +52,21 @@ def crypt(text, rotors) -> str:
     return ''.join(crypt_text)
 
 def translate(text, rotors) -> str:
-    return "dr"
+    global dictionary
+    init_ref(rotors[0])
+    translate_text = []
+    aux_pos = 0
+
+    for char in text:
+        if char.upper() in dictionary:
+            position = int(rotors[aux_pos].index(char.upper()))
+            translate_text.append(dictionary[position])
+            rotors = rotorSpin(rotors)
+            if aux_pos == 4:
+                aux_pos = 0
+            else:
+                aux_pos += 1
+        else:
+            translate_text.append(char)
+
+    return ''.join(translate_text)

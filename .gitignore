@@ -1,0 +1,15 @@
+# Directorio del entorno virtual
+venv/
+env/
+.venv/
+
+# Bytecode compilado de Python
+__pycache__/
+__pycache__
+
+# Archivos de la IDE (ej. VS Code)
+.vscode/
+
+# Archivos de configuración y datos sensibles
+.env
+*.log

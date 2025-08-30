@@ -14,17 +14,14 @@ def entrada():
         return f"Error: {e}"
 
 text = entrada()
-print("-------------------- Mensaje Original --------------------")
-print(text)
 
-rotors = initCrypt("El maik es un pendejo estupido")
-cry_text = crypt(text, rotors)
 
-print("-------------------- Mensaje Cifrado --------------------")
-print(cry_text)
+#Metodo para encriptar un mensaje
+def crypt_text(message: str , password : str) -> str:
+    rotors = initCrypt(password)
+    return crypt(message, rotors)
 
-rotors = initCrypt("El maik es un pendejo estupido")
-trans_text = translate(cry_text, rotors)
 
-print("-------------------- Mensaje Descifrado --------------------")
-print(trans_text)
+def translate_text(message: str , password : str) -> str:
+    rotors = initCrypt(password)
+    return translate(message,rotors)

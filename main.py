@@ -17,13 +17,13 @@ text = entrada()
 print("-------------------- Mensaje Original --------------------")
 print(text)
 
-rotors = initCrypt("Prueba para mi compa el erick")
+rotors = initCrypt("El maik es un pendejo estupido")
 cry_text = crypt(text, rotors)
 
 print("-------------------- Mensaje Cifrado --------------------")
 print(cry_text)
 
-rotors = initCrypt("Prueba para mi compa l erick")
+rotors = initCrypt("El maik es un pendejo estupido")
 trans_text = translate(cry_text, rotors)
 
 print("-------------------- Mensaje Descifrado --------------------")

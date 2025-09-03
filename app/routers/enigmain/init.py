@@ -25,7 +25,7 @@ def extract (password: str):
         if len(password) < 15:
             print("La contraseña debe tener al menos 15 caracteres.")
             continue
-        if len(password) > 32:
+        if len(password) > 64:
             print("La contraseña debe tener como máximo 32 caracteres.")
             continue
         #print("Contraseña válida.")

@@ -30,6 +30,8 @@ if not origins:
         "null",
     ]
 
+print(f"CORS Allowed Origins: {origins}") # Added for debugging
+
 # Añade el middleware de CORS a la aplicacion
 app.add_middleware(
     CORSMiddleware,

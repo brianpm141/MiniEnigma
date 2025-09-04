@@ -15,6 +15,8 @@ if not allowed:
         "http://localhost:8000",
     ]
 
+print(allowed)
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=allowed,

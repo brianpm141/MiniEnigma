@@ -4,37 +4,27 @@ import os
 
 app = FastAPI()
 
-# Configuracion de CORS para desarrollo y produccion en Vercel
-# Obtener los orígenes permitidos de una variable de entorno
-allowed_origins_str = os.getenv("CORS_ALLOWED_ORIGINS", "").split(",")
-origins = [
-    origin.strip() for origin in allowed_origins_str if origin.strip()
-]
+# PRODUCCIÓN: orígenes explícitos + regex para previews de Vercel
+allowed = [o.strip() for o in os.getenv("CORS_ALLOWED_ORIGINS", "").split(",") if o.strip()]
 
-# Si no se especifican orígenes, permitir localhost para desarrollo
-if not origins:
-    origins = [
-        "http://localhost",
+if not allowed:
+    allowed = [
+        "https://bp-mportfolio.vercel.app",   # tu frontend
+        "https://mini-enigma.vercel.app",     # mismo host (si llamas desde ahí)
         "http://localhost:3000",
         "http://localhost:8000",
-        "http://127.0.0.1",
-        "http://127.0.0.1:3000",
-        "http://127.0.0.1:8000",
-        "null",
     ]
 
-print(f"CORS Allowed Origins: {origins}") # Added for debugging
-
-# Añade el middleware de CORS a la aplicacion
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
+    allow_origins=allowed,
+    allow_origin_regex=r"https://.*\.vercel\.app$",  # permite previews *.vercel.app
+    allow_credentials=False,  # déjalo en False si no usas cookies/autenticación
     allow_methods=["*"],
     allow_headers=["*"],
+    max_age=600,
 )
 
 @app.get("/")
-def read_root():
-    text = f"Bienvenido a MiniEnigma {origins}" 
-    return {"message": text}
+def root():
+    return {"message": "Bienvenido a MiniEnigma"}

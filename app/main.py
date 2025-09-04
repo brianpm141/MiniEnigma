@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import os
+from app.routers.router import router
 
 app = FastAPI()
 
@@ -27,6 +28,8 @@ app.add_middleware(
     max_age=600,
 )
 
+app.include_router(router)
+
 @app.get("/")
 def root():
-    return {"message": "Bienvenido a MiniEnigma"}
+    return {"message": f"Bienvenido a MiniEnigma Origenes : {allowed}"}

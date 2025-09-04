@@ -36,4 +36,5 @@ app.add_middleware(
 
 @app.get("/")
 def read_root():
-    return {"message": "vienvenido a MiniEnigma"}
+    text = f"Bienvenido a MiniEnigma {origins}" 
+    return {"message": text}

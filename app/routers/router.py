@@ -33,7 +33,7 @@ def decrypt_message(input_data: InputModel):
         # Error inesperado durante el proceso de desencriptación.
         raise HTTPException(status_code=500, detail=f"Internal processing error: {e}")
 
-@router.get("cv")
+@router.get("/cv")
 def descargar_cv():
     base_path = Path(__file__).parent
 

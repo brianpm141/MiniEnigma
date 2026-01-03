@@ -37,7 +37,7 @@ def decrypt_message(input_data: InputModel):
 
 @router.get("/cv")
 def descargar_cv():
-    base_path = Path(__file__).parent
+    current_dir = Path(__file__).parent
 
     file_path = current_dir.parent / "static" / "CV_BrayhamPavonMartell.pdf"
 

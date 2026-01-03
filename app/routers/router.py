@@ -44,7 +44,7 @@ def descargar_cv():
     
     return FileResponse(
         path=file_path,
-        filename="CV_BrayhamPavonMartell.pdf"
-        media_type='aplication/pdf'
+        filename="CV_BrayhamPavonMartell.pdf",
+        media_type='aplication/pdf',
         headers={"Content-Dosposition":"inline; fliname=CV_BrayhamPavonMartell.pdf"}
     )

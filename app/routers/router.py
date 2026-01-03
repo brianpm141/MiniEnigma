@@ -35,11 +35,11 @@ def decrypt_message(input_data: InputModel):
         # Error inesperado durante el proceso de desencriptación.
         raise HTTPException(status_code=500, detail=f"Internal processing error: {e}")
 
-@router.get("/cv", response_model=OutputModel)
+@router.get("/cv")
 def descargar_cv():
     base_path = Path(__file__).parent
 
-    file_path = base_path / "static" / "CV_BrayhamPavonMartell.pdf"
+    file_path = current_dir.parent / "static" / "CV_BrayhamPavonMartell.pdf"
 
     if not file_path.exists():
         return {"error":"Archivo no encontrado"}

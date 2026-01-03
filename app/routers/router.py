@@ -32,3 +32,19 @@ def decrypt_message(input_data: InputModel):
     except (IndexError, TypeError) as e:
         # Error inesperado durante el proceso de desencriptación.
         raise HTTPException(status_code=500, detail=f"Internal processing error: {e}")
+
+@router.get("cv")
+def descargar_cv():
+    base_path = Path(__file__).parent
+
+    file_path = base_path / "static" / "CV_BrayhamPavonMartell.pdf"
+
+    if not file_path.exists():
+        return {"error":"Archivo no encontrado"}
+    
+    return FileResponse(
+        path=file_path,
+        filename="CV_BrayhamPavonMartell.pdf"
+        media_type='aplication/pdf'
+        headers={"Content-Dosposition":"inline; fliname=CV_BrayhamPavonMartell.pdf"}
+    )

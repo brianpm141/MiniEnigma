@@ -3,6 +3,7 @@ from ..models.message import InputModel, OutputModel
 from .enigmain.methods import crypt_text, translate_text
 from pathlib import Path
 from fastapi.responses import FileResponse
+from fastapi import HTTPException
 
 router = APIRouter(prefix="/minienigma", tags=["process"])
 
@@ -38,15 +39,15 @@ def decrypt_message(input_data: InputModel):
 @router.get("/cv")
 def descargar_cv():
     current_dir = Path(__file__).parent
-
     file_path = current_dir.parent / "static" / "CV_BrayhamPavonMartell.pdf"
 
     if not file_path.exists():
-        return {"error":"Archivo no encontrado"}
+        # Es mejor retornar un 404 real que un JSON con error
+        raise HTTPException(status_code=404, detail="Archivo no encontrado")
     
     return FileResponse(
         path=file_path,
         filename="CV_BrayhamPavonMartell.pdf",
-        media_type='aplication/pdf',
-        headers={"Content-Dosposition":"inline; fliname=CV_BrayhamPavonMartell.pdf"}
+        media_type="application/pdf",       
+        content_disposition_type="inline"   
     )

@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import os
 from app.routers.router import router
 from fastapi.staticfiles import StaticFiles
+from pathlib import Path
 
 app = FastAPI()
 

@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import os
 from app.routers.router import router
+from fastapi.staticfiles import StaticFiles
 
 app = FastAPI()
 
@@ -16,8 +17,6 @@ if not allowed:
         "http://localhost:8000",
     ]
 
-print(allowed)
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=allowed,
@@ -30,6 +29,17 @@ app.add_middleware(
 
 app.include_router(router)
 
+base_path = Path(__file__).parent
+
+static_path = base_path / "static"
+
+if static_path.exists():
+    app.mount("/static", StaticFiles(directory=static_path), name="static")
+else:
+    print(f"ADVERTENCIA: No se encontró la carpeta static en: {static_path}")
+
+
 @app.get("/")
 def root():
     return {"message": f"Bienvenido a MiniEnigma Origenes : {allowed}"}
+

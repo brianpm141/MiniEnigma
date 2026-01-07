@@ -1,12 +1,8 @@
 from fastapi import APIRouter, HTTPException
 from ..models.message import InputModel, OutputModel
 from .enigmain.methods import crypt_text, translate_text
-from pathlib import Path
-from fastapi.responses import FileResponse
-from fastapi import HTTPException
 
 router = APIRouter(prefix="/minienigma", tags=["process"])
-
 
 @router.post("/encrypt", response_model=OutputModel)
 def encrypt_message(input_data: InputModel):
@@ -35,19 +31,3 @@ def decrypt_message(input_data: InputModel):
     except (IndexError, TypeError) as e:
         # Error inesperado durante el proceso de desencriptación.
         raise HTTPException(status_code=500, detail=f"Internal processing error: {e}")
-
-@router.get("/cv")
-def descargar_cv():
-    current_dir = Path(__file__).parent
-    file_path = current_dir.parent / "static" / "CV_BrayhamPavonMartell.pdf"
-
-    if not file_path.exists():
-        # Es mejor retornar un 404 real que un JSON con error
-        raise HTTPException(status_code=404, detail="Archivo no encontrado")
-    
-    return FileResponse(
-        path=file_path,
-        filename="CV_BrayhamPavonMartell.pdf",
-        media_type="application/pdf",       
-        content_disposition_type="inline"   
-    )

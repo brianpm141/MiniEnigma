@@ -9,7 +9,8 @@ app = FastAPI()
 
 # PRODUCCIÓN: orígenes explícitos + regex para previews de Vercel
 allowed = [
-    "*"
+    "*",
+    "http://localhost:5173"
 ]
 
 

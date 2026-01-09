@@ -12,10 +12,7 @@ allowed = [o.strip() for o in os.getenv("CORS_ALLOWED_ORIGINS", "").split(",") i
 
 if not allowed:
     allowed = [
-        "https://bp-mportfolio.vercel.app",   # tu frontend
-        "https://mini-enigma.vercel.app",     # mismo host (si llamas desde ahí)
-        "http://localhost:3000",
-        "http://localhost:8000",
+        "*"
     ]
 
 app.add_middleware(

@@ -8,12 +8,10 @@ from pathlib import Path
 app = FastAPI()
 
 # PRODUCCIÓN: orígenes explícitos + regex para previews de Vercel
-allowed = [o.strip() for o in os.getenv("CORS_ALLOWED_ORIGINS", "").split(",") if o.strip()]
+allowed = [
+    "*"
+]
 
-if not allowed:
-    allowed = [
-        "*"
-    ]
 
 app.add_middleware(
     CORSMiddleware,
